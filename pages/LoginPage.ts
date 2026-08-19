@@ -7,8 +7,8 @@ export class LoginPage {
         private loginButtonLocator: Locator;
         public errorMessageLocator: Locator;
 
-    constructor(page: Page) {
-        this.page = page;
+    constructor(playwrightPage: Page) {
+        this.page = playwrightPage;
         this.usernameLocator = this.page.locator('#user-name');
         this.passwordLocator = this.page.locator('#password');
         this.loginButtonLocator = this.page.locator('#login-button');
