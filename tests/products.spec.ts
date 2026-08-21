@@ -36,10 +36,10 @@ test(`Add ${product.name} to cart` ,
          await checkoutPage.fillCustomerInformation(standardCustomer.firstName, standardCustomer.lastName,standardCustomer.postalCode)
          await expect (checkoutOverviewPage.getOverviewItem (product.name)).toBeVisible()
          await expect (checkoutOverviewPage.getItemQuantity(product.name)).toHaveText("1")
+         await expect (checkoutOverviewPage.getItemPrice(product.name)).toHaveText(product.price)
          await checkoutOverviewPage.finishOrder()
          await expect(checkoutCompletePage.orderConfirmation).toHaveText("Thank you for your order!")
          await checkoutCompletePage.goBackHome()
-
     })
 }
 

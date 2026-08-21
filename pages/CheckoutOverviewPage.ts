@@ -20,6 +20,9 @@ export class CheckoutOverviewPage {
     getItemQuantity(productName:string):Locator {
         return this.getOverviewItem(productName).locator('[data-test="item-quantity"]');
     }
+    getItemPrice(productName:string):Locator {
+        return this.getOverviewItem(productName).locator('[data-test="inventory-item-price"]');
+    }
 
    async finishOrder() {
       await this.finishButtonLocator.click();
