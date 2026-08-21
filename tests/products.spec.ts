@@ -9,6 +9,7 @@ import { standardUser } from "../test-data/users.js";
 import { standardCustomer } from "../test-data/customers.js";
 //import new test from fixture page
 import { test } from "../fixtures/pageFixtures.js";
+import { products } from "../test-data/products.js";
 
 
 //hook
@@ -18,24 +19,28 @@ test.beforeEach(async ({ page }) => {
     await loginPage.login(standardUser.username,standardUser.password)
 });
 
-test("Add items to cart" ,
-    async ({ page, productsPage, cartPage, checkoutPage, checkoutOverviewPage, checkoutCompletePage }) => {
+for (const product of products) {
+
+test(`Add ${product} to cart` ,
+    //added fixtures
+    async ({productsPage, cartPage, checkoutPage, checkoutOverviewPage, checkoutCompletePage }) => {
         // const productsPage = new ProductsPage(page);
         // const cartPage = new CartPage(page);
         // const checkoutPage = new CheckoutPage(page);
         // const checkoutOverviewPage = new CheckoutOverviewPage(page);
         // const checkoutCompletePage = new CheckoutCompletePage(page);
-         await productsPage.addToCart("Sauce Labs Backpack");
+         await productsPage.addToCart(product);
          await expect(productsPage.cartBadgeLocator).toHaveText("1")
          await productsPage.openCart()
-         await expect(cartPage.getCartItem("Sauce Labs Backpack")).toBeVisible()
+         await expect(cartPage.getCartItem(product)).toBeVisible()
          await cartPage.doCheckout()
          await checkoutPage.fillCustomerInformation(standardCustomer.firstName, standardCustomer.lastName,standardCustomer.postalCode)
-         await expect (checkoutOverviewPage.getOverviewItem ("Sauce Labs Backpack")).toBeVisible()
-         await expect (checkoutOverviewPage.getItemQuantity("Sauce Labs Backpack")).toHaveText("1")
+         await expect (checkoutOverviewPage.getOverviewItem (product)).toBeVisible()
+         await expect (checkoutOverviewPage.getItemQuantity(product)).toHaveText("1")
          await checkoutOverviewPage.finishOrder()
          await expect(checkoutCompletePage.orderConfirmation).toHaveText("Thank you for your order!")
          await checkoutCompletePage.goBackHome()
 
-    }
-)
+    })
+}
+

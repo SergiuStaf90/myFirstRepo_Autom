@@ -1,0 +1,1 @@
+export const products = ["Sauce Labs Backpack", "Sauce Labs Onesie", "Sauce Labs Bolt T-Shirt" ]
