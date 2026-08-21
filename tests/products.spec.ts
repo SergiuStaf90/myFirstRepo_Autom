@@ -11,7 +11,6 @@ import { standardCustomer } from "../test-data/customers.js";
 import { test } from "../fixtures/pageFixtures.js";
 import { products } from "../test-data/products.js";
 
-
 //hook
 test.beforeEach(async ({ page }) => {
     const loginPage = new LoginPage(page);
@@ -21,7 +20,7 @@ test.beforeEach(async ({ page }) => {
 
 for (const product of products) {
 
-test(`Add ${product} to cart` ,
+test(`Add ${product.name} to cart` ,
     //added fixtures
     async ({productsPage, cartPage, checkoutPage, checkoutOverviewPage, checkoutCompletePage }) => {
         // const productsPage = new ProductsPage(page);
@@ -29,14 +28,14 @@ test(`Add ${product} to cart` ,
         // const checkoutPage = new CheckoutPage(page);
         // const checkoutOverviewPage = new CheckoutOverviewPage(page);
         // const checkoutCompletePage = new CheckoutCompletePage(page);
-         await productsPage.addToCart(product);
+         await productsPage.addToCart(product.name);
          await expect(productsPage.cartBadgeLocator).toHaveText("1")
          await productsPage.openCart()
-         await expect(cartPage.getCartItem(product)).toBeVisible()
+         await expect(cartPage.getCartItem(product.name)).toBeVisible()
          await cartPage.doCheckout()
          await checkoutPage.fillCustomerInformation(standardCustomer.firstName, standardCustomer.lastName,standardCustomer.postalCode)
-         await expect (checkoutOverviewPage.getOverviewItem (product)).toBeVisible()
-         await expect (checkoutOverviewPage.getItemQuantity(product)).toHaveText("1")
+         await expect (checkoutOverviewPage.getOverviewItem (product.name)).toBeVisible()
+         await expect (checkoutOverviewPage.getItemQuantity(product.name)).toHaveText("1")
          await checkoutOverviewPage.finishOrder()
          await expect(checkoutCompletePage.orderConfirmation).toHaveText("Thank you for your order!")
          await checkoutCompletePage.goBackHome()
