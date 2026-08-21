@@ -19,8 +19,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 for (const product of products) {
-
-test(`Add ${product.name} to cart` ,
+    test(`Add ${product.name} to cart` ,
     //added fixtures
     async ({productsPage, cartPage, checkoutPage, checkoutOverviewPage, checkoutCompletePage }) => {
         // const productsPage = new ProductsPage(page);
@@ -43,3 +42,25 @@ test(`Add ${product.name} to cart` ,
     })
 }
 
+test(`Add ${products.length} products to cart` ,
+    async ({productsPage, cartPage, checkoutPage, checkoutOverviewPage, checkoutCompletePage }) => {
+        for (const product of products) {
+            await productsPage.addToCart(product.name);
+        }
+        await expect(productsPage.cartBadgeLocator).toHaveText(products.length.toString())
+        await productsPage.openCart()
+
+        for (const product of products) {
+            await expect(cartPage.getCartItem(product.name)).toBeVisible()
+        }
+        await cartPage.doCheckout()
+        await checkoutPage.fillCustomerInformation(standardCustomer.firstName, standardCustomer.lastName,standardCustomer.postalCode)
+        for (const product of products) {
+            await expect (checkoutOverviewPage.getOverviewItem (product.name)).toBeVisible()
+            await expect (checkoutOverviewPage.getItemQuantity(product.name)).toHaveText("1")
+            await expect (checkoutOverviewPage.getItemPrice(product.name)).toHaveText(product.price)
+        }
+        await checkoutOverviewPage.finishOrder()
+        await expect(checkoutCompletePage.orderConfirmation).toHaveText("Thank you for your order!")
+        await checkoutCompletePage.goBackHome()
+    })
