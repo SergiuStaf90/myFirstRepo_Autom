@@ -1,4 +1,6 @@
 import {Page, Locator} from "@playwright/test";
+// import {ProductName} from "../test-data/products.js";
+import type { ProductName } from "../test-data/products.js";
 
 export class ProductsPage {
         private page :Page ;
@@ -13,7 +15,7 @@ export class ProductsPage {
         this.shoppingCartLinkLocator = this.page.locator("[data-test='shopping-cart-link']")
     }
 
-    async addToCart (productName :string  ){
+    async addToCart (productName :ProductName  ){
             const filteredProduct = this.inventoryItemLocator.filter({
                         hasText: productName
         })
