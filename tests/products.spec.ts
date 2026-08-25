@@ -10,6 +10,7 @@ import { standardCustomer } from "../test-data/customers.js";
 //import new test from fixture page
 import { test } from "../fixtures/pageFixtures.js";
 import { products } from "../test-data/products.js";
+import { formatProduct } from "../Functions_and_Helpers/Functions.js";
 
 //hook
 test.beforeEach(async ({ page }) => {
@@ -19,7 +20,9 @@ test.beforeEach(async ({ page }) => {
 });
 
 for (const product of products) {
-    test(`Add ${product.name} to cart` ,
+    // test(`Add ${product.name} to cart` ,
+    // added ${template literal} s test can show prod + price
+        test(`Add ${formatProduct(product.name , product.price)} to cart` ,
     //added fixtures
     async ({productsPage, cartPage, checkoutPage, checkoutOverviewPage, checkoutCompletePage }) => {
         // const productsPage = new ProductsPage(page);
