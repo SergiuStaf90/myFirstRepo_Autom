@@ -15,6 +15,7 @@
 // type Productname = "Sauce Labs Backpack"|"Sauce Labs Onesie"|"Sauce Labs Bolt T-Shirt";
 
 export type ProductName = typeof products[number]["name"];
+export type ProductAndPrice = typeof products[number];
 // refactoring ProductName alias, so we do not duplicate the product name
 
 export const products = [

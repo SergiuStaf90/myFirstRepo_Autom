@@ -59,7 +59,7 @@ test(`Add ${products.length} products to cart` ,
         await cartPage.doCheckout()
         await checkoutPage.fillCustomerInformation(standardCustomer.firstName, standardCustomer.lastName,standardCustomer.postalCode)
         for (const product of products) {
-            await verifyOverviewProduct(checkoutOverviewPage,product.name,1,product.price)
+            await verifyOverviewProduct(checkoutOverviewPage,product,1)
             //created a function to do the bellow assertion
             // await expect (checkoutOverviewPage.getOverviewItem (product.name)).toBeVisible()
             // await expect (checkoutOverviewPage.getItemQuantity(product.name)).toHaveText("1")
