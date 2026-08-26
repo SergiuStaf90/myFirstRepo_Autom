@@ -10,7 +10,7 @@ import { standardCustomer } from "../test-data/customers.js";
 //import new test from fixture page
 import { test } from "../fixtures/pageFixtures.js";
 import { products } from "../test-data/products.js";
-import { formatProduct } from "../Functions_and_Helpers/Functions.js";
+import {formatProduct, verifyOverviewProduct} from "../Functions_and_Helpers/Functions.js";
 
 //hook
 test.beforeEach(async ({ page }) => {
@@ -59,9 +59,11 @@ test(`Add ${products.length} products to cart` ,
         await cartPage.doCheckout()
         await checkoutPage.fillCustomerInformation(standardCustomer.firstName, standardCustomer.lastName,standardCustomer.postalCode)
         for (const product of products) {
-            await expect (checkoutOverviewPage.getOverviewItem (product.name)).toBeVisible()
-            await expect (checkoutOverviewPage.getItemQuantity(product.name)).toHaveText("1")
-            await expect (checkoutOverviewPage.getItemPrice(product.name)).toHaveText(product.price)
+            await verifyOverviewProduct(checkoutOverviewPage,product.name,1,product.price)
+            //created a function to do the bellow assertion
+            // await expect (checkoutOverviewPage.getOverviewItem (product.name)).toBeVisible()
+            // await expect (checkoutOverviewPage.getItemQuantity(product.name)).toHaveText("1")
+            // await expect (checkoutOverviewPage.getItemPrice(product.name)).toHaveText(product.price)
         }
         await checkoutOverviewPage.finishOrder()
         await expect(checkoutCompletePage.orderConfirmation).toHaveText("Thank you for your order!")
