@@ -9,7 +9,7 @@ import { standardUser } from "../test-data/users.js";
 import { standardCustomer } from "../test-data/customers.js";
 //import new test from fixture page
 import { test } from "../fixtures/pageFixtures.js";
-import { products } from "../test-data/products.js";
+import { products} from "../test-data/products.js";
 import {formatProduct, verifyOverviewProduct} from "../Functions_and_Helpers/Functions.js";
 
 //hook
@@ -47,9 +47,10 @@ for (const product of products) {
 
 test(`Add ${products.length} products to cart` ,
     async ({productsPage, cartPage, checkoutPage, checkoutOverviewPage, checkoutCompletePage }) => {
-        for (const product of products) {
-            await productsPage.addToCart(product.name);
-        }
+        // for (const product of products) {
+        //     await productsPage.addToCart(product.name);
+        // }
+        await productsPage.addMultipleProducts(...products.map(product => product.name))
         await expect(productsPage.cartBadgeLocator).toHaveText(products.length.toString())
         await productsPage.openCart()
 

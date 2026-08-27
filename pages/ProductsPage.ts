@@ -22,6 +22,13 @@ export class ProductsPage {
             await filteredProduct.getByRole("button", { name: "Add to cart" }).click()
     }
 
+    async addMultipleProducts( ...productNames :ProductName[] ) {
+        for (const productName of productNames){
+            await this.addToCart(productName);
+        }
+
+}
+
      async openCart(){
         await this.shoppingCartLinkLocator.click()
      }
