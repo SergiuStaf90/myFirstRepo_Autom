@@ -5,7 +5,7 @@ import type { ProductName } from "../test-data/products.js";
 export class ProductsPage {
         private page :Page ;
         private inventoryItemLocator : Locator;
-        public cartBadgeLocator : Locator;
+        private cartBadgeLocator : Locator;
         private shoppingCartLinkLocator : Locator;
 
     constructor(playwrightPage:Page) {
@@ -13,6 +13,10 @@ export class ProductsPage {
         this.inventoryItemLocator = this.page.locator("[data-test='inventory-item']");
         this.cartBadgeLocator = this.page.locator("[data-test='shopping-cart-badge']")
         this.shoppingCartLinkLocator = this.page.locator("[data-test='shopping-cart-link']")
+    }
+
+     get cartBadge(): Locator {
+         return this.cartBadgeLocator;
     }
 
     async addToCart (productName :ProductName  ){
